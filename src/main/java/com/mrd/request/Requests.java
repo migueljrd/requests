@@ -21,11 +21,8 @@ import org.apache.http.util.EntityUtils;
 import com.google.gson.Gson;
 
 public class Requests {
-    private CloseableHttpClient httpClient;
 
-    public Requests() {
-        httpClient = HttpClients.createDefault();
-    }
+    private CloseableHttpClient httpClient;
 
     public String doGet(String url) throws IOException, URISyntaxException {
         HttpGet httpGet = new HttpGet(new URI(url));
@@ -52,6 +49,7 @@ public class Requests {
     }
 
     private String doRequest(HttpEntityEnclosingRequestBase httpRequest, Object object) throws IOException {
+        httpClient = HttpClients.createDefault();
         Gson gson = new Gson();
         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
         httpRequest.setEntity(new StringEntity(gson.toJson(object)));
@@ -63,10 +61,11 @@ public class Requests {
         HttpEntity httpEntity = httpResponse.getEntity();
         String response = EntityUtils.toString(httpEntity);
         EntityUtils.consume(httpEntity); // Consumir la entidad para liberar recursos
+        close(); // cerrar httpClient
         return response;
     }
 
-    public void close() throws IOException {
+    private void close() throws IOException {
         httpClient.close();
     }
 }
