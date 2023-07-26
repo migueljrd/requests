@@ -3,7 +3,10 @@ package com.mrd.request;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -24,34 +27,45 @@ public class Requests {
 
     private CloseableHttpClient httpClient;
 
-    public String doGet(String url) throws IOException, URISyntaxException {
+    public String doGet(String url,Map<String,String> headers) throws IOException, URISyntaxException {
+        httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(new URI(url));
+        for(Map.Entry<String, String> header : headers.entrySet()){
+            httpGet.setHeader(header.getKey(),header.getValue());
+        }
         HttpResponse httpResponse = httpClient.execute(httpGet);
         return handleResponse(httpResponse);
     }
 
-    public String doPost(String url, Object object) throws IOException, URISyntaxException {
-        return doRequest(new HttpPost(new URI(url)), object);
+    public String doPost(String url, Object object,Map<String,String> headers) throws IOException, URISyntaxException {
+        return doRequest(new HttpPost(new URI(url)), object, headers);
     }
 
-    public String doPut(String url, Object object) throws IOException, URISyntaxException {
-        return doRequest(new HttpPut(new URI(url)), object);
+    public String doPut(String url, Object object,Map<String,String> headers) throws IOException, URISyntaxException {
+        return doRequest(new HttpPut(new URI(url)), object,headers);
     }
 
-    public String doPatch(String url, Object object) throws IOException, URISyntaxException {
-        return doRequest(new HttpPatch(new URI(url)), object);
+    public String doPatch(String url, Object object,Map<String,String> headers) throws IOException, URISyntaxException {
+        return doRequest(new HttpPatch(new URI(url)), object,headers);
     }
 
-    public String doDelete(String url) throws IOException, URISyntaxException {
+    public String doDelete(String url,Map<String,String> headers) throws IOException, URISyntaxException {
+        httpClient = HttpClients.createDefault();
         HttpDelete httpDelete = new HttpDelete(new URI(url));
+        for(Map.Entry<String, String> header : headers.entrySet()){
+            httpDelete.setHeader(header.getKey(),header.getValue());
+        }
         HttpResponse httpResponse = httpClient.execute(httpDelete);
         return handleResponse(httpResponse);
     }
 
-    private String doRequest(HttpEntityEnclosingRequestBase httpRequest, Object object) throws IOException {
+    private String doRequest(HttpEntityEnclosingRequestBase httpRequest, Object object,Map<String,String> headers) throws IOException {
         httpClient = HttpClients.createDefault();
         Gson gson = new Gson();
         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
+        for(Map.Entry<String, String> header : headers.entrySet()){
+            httpRequest.setHeader(header.getKey(),header.getValue());
+        }
         httpRequest.setEntity(new StringEntity(gson.toJson(object)));
         HttpResponse httpResponse = httpClient.execute(httpRequest);
         return handleResponse(httpResponse);
@@ -60,12 +74,9 @@ public class Requests {
     private String handleResponse(HttpResponse httpResponse) throws IOException {
         HttpEntity httpEntity = httpResponse.getEntity();
         String response = EntityUtils.toString(httpEntity);
-        EntityUtils.consume(httpEntity); // Consumir la entidad para liberar recursos
-        close(); // cerrar httpClient
+        EntityUtils.consume(httpEntity); // Consume entity to free memory
+        httpClient.close(); // close httpClient
         return response;
     }
 
-    private void close() throws IOException {
-        httpClient.close();
-    }
 }
