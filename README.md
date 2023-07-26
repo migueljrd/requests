@@ -11,7 +11,7 @@ String url = "https://api.example.com/data";
 Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", "Bearer your_access_token");
 headers.put("Custom-Header", "Custom-Value");
-
+// Headers can be null
 String response = httpClient.doGet(url, headers);
 System.out.println("GET Response: " + response);
 ```
@@ -24,7 +24,7 @@ Object requestBody = new YourObject();
 // Set properties of YourObject as needed
 Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", "Bearer your_access_token");
-
+// Headers can be null
 String response = httpClient.doPost(url, requestBody, headers);
 System.out.println("POST Response: " + response);
 ```
@@ -37,7 +37,7 @@ Object requestBody = new YourObject();
 // Set properties of YourObject as needed
 Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", "Bearer your_access_token");
-
+// Headers can be null
 String response = httpClient.doPut(url, requestBody, headers);
 System.out.println("PUT Response: " + response);
 ```
@@ -50,7 +50,7 @@ Object requestBody = new YourObject();
 // Set properties of YourObject as needed
 Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", "Bearer your_access_token");
-
+// Headers can be null
 String response = httpClient.doPatch(url, requestBody, headers);
 System.out.println("PATCH Response: " + response);
 ```
@@ -61,7 +61,7 @@ System.out.println("PATCH Response: " + response);
 String url = "https://api.example.com/delete/123";
 Map<String, String> headers = new HashMap<>();
 headers.put("Authorization", "Bearer your_access_token");
-
+// Headers can be null
 String response = httpClient.doDelete(url, headers);
 System.out.println("DELETE Response: " + response);
 ```
