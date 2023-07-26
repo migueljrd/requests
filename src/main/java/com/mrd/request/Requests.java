@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -28,9 +29,7 @@ public class Requests {
     public String doGet(String url,Map<String,String> headers) throws IOException, URISyntaxException {
         httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(new URI(url));
-        for(Map.Entry<String, String> header : headers.entrySet()){
-            httpGet.setHeader(header.getKey(),header.getValue());
-        }
+        addHeaders(httpGet,headers);
         HttpResponse httpResponse = httpClient.execute(httpGet);
         return handleResponse(httpResponse);
     }
@@ -50,9 +49,7 @@ public class Requests {
     public String doDelete(String url,Map<String,String> headers) throws IOException, URISyntaxException {
         httpClient = HttpClients.createDefault();
         HttpDelete httpDelete = new HttpDelete(new URI(url));
-        for(Map.Entry<String, String> header : headers.entrySet()){
-            httpDelete.setHeader(header.getKey(),header.getValue());
-        }
+        addHeaders(httpDelete,headers);
         HttpResponse httpResponse = httpClient.execute(httpDelete);
         return handleResponse(httpResponse);
     }
@@ -61,9 +58,7 @@ public class Requests {
         httpClient = HttpClients.createDefault();
         Gson gson = new Gson();
         httpRequest.setHeader("Content-Type", ContentType.APPLICATION_JSON.getMimeType());
-        for(Map.Entry<String, String> header : headers.entrySet()){
-            httpRequest.setHeader(header.getKey(),header.getValue());
-        }
+        addHeaders(httpRequest,headers);
         httpRequest.setEntity(new StringEntity(gson.toJson(object)));
         HttpResponse httpResponse = httpClient.execute(httpRequest);
         return handleResponse(httpResponse);
@@ -75,6 +70,13 @@ public class Requests {
         EntityUtils.consume(httpEntity); // Consume entity to free memory
         httpClient.close(); // close httpClient
         return response;
+    }
+
+
+    private void addHeaders (HttpRequest request,Map<String, String> headers){
+        for(Map.Entry<String, String> header : headers.entrySet()){
+            request.setHeader(header.getKey(),header.getValue());
+        }
     }
 
 }
