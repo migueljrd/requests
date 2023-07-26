@@ -2,6 +2,28 @@
 Library for making HTTP calls with JSON parameters for Java.
 With this library, you can make GET, POST, PUT, PATCH, and DELETE requests to an API, sending data in JSON format and getting responses in JSON format.
 
+1. Add the Apache HttpClient library to your project. You can add it to your `pom.xml` if you're using Maven:
+
+```xml
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.13</version>
+</dependency>
+```
+
+2. Import the `Requests` class in your Java code:
+
+```java
+import com.mrd.request.Requests;
+```
+
+3. Create an instance of `Requests`:
+
+```java
+Requests httpClient = new Requests();
+```
+
 ## Making HTTP Requests
 
 ### GET Method:
