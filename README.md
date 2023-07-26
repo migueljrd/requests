@@ -2,15 +2,17 @@
 Library for making HTTP calls with JSON parameters for Java.
 With this library, you can make GET, POST, PUT, PATCH, and DELETE requests to an API, sending data in JSON format and getting responses in JSON format.
 
-## Available Methods
-
-`Requests` offers the following methods for making HTTP calls:
+## Making HTTP Requests
 
 ### GET Method:
 
 ```java
 String url = "https://api.example.com/data";
-String response = httpClient.doGet(url);
+Map<String, String> headers = new HashMap<>();
+headers.put("Authorization", "Bearer your_access_token");
+headers.put("Custom-Header", "Custom-Value");
+
+String response = httpClient.doGet(url, headers);
 System.out.println("GET Response: " + response);
 ```
 
@@ -18,9 +20,12 @@ System.out.println("GET Response: " + response);
 
 ```java
 String url = "https://api.example.com/create";
-YourObject requestBody = new YourObject();
+Object requestBody = new YourObject();
 // Set properties of YourObject as needed
-String response = httpClient.doPost(url, requestBody);
+Map<String, String> headers = new HashMap<>();
+headers.put("Authorization", "Bearer your_access_token");
+
+String response = httpClient.doPost(url, requestBody, headers);
 System.out.println("POST Response: " + response);
 ```
 
@@ -28,9 +33,12 @@ System.out.println("POST Response: " + response);
 
 ```java
 String url = "https://api.example.com/update/123";
-YourObject requestBody = new YourObject();
+Object requestBody = new YourObject();
 // Set properties of YourObject as needed
-String response = httpClient.doPut(url, requestBody);
+Map<String, String> headers = new HashMap<>();
+headers.put("Authorization", "Bearer your_access_token");
+
+String response = httpClient.doPut(url, requestBody, headers);
 System.out.println("PUT Response: " + response);
 ```
 
@@ -38,9 +46,12 @@ System.out.println("PUT Response: " + response);
 
 ```java
 String url = "https://api.example.com/update/123";
-YourObject requestBody = new YourObject();
+Object requestBody = new YourObject();
 // Set properties of YourObject as needed
-String response = httpClient.doPatch(url, requestBody);
+Map<String, String> headers = new HashMap<>();
+headers.put("Authorization", "Bearer your_access_token");
+
+String response = httpClient.doPatch(url, requestBody, headers);
 System.out.println("PATCH Response: " + response);
 ```
 
@@ -48,7 +59,10 @@ System.out.println("PATCH Response: " + response);
 
 ```java
 String url = "https://api.example.com/delete/123";
-String response = httpClient.doDelete(url);
+Map<String, String> headers = new HashMap<>();
+headers.put("Authorization", "Bearer your_access_token");
+
+String response = httpClient.doDelete(url, headers);
 System.out.println("DELETE Response: " + response);
 ```
 
