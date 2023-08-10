@@ -60,7 +60,7 @@ public class Requests {
 
     /**
      * 
-     * Do Post with headers, Headers can be null, Object and url are mandatory
+     * Do Post with headers, Headers and Object can be null but url are mandatory
      * 
      * @param url
      * @param object
@@ -75,7 +75,7 @@ public class Requests {
 
     /**
      * 
-     * Do Put with headers, Headers can be null, Object and url are mandatory
+     * Do Put with headers, Headers and Object can be null but url are mandatory
      * 
      * @param url
      * @param object
@@ -90,7 +90,7 @@ public class Requests {
 
     /**
      * 
-     * Do Patch with headers, Headers can be null, Object and url are mandatory
+     * Do Patch with headers, Headers and Object can be null but url are mandatory
      * 
      * @param url
      * @param object
